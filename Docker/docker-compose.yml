@@ -1,0 +1,33 @@
+version: '3.3'
+
+services:
+
+ server:
+   build:
+    context: ../
+    dockerfile: Docker/ServerDockerfile
+   ports:
+    - "5000:5000"
+   volumes:
+    - ../STRIP WEBAPP:/app/STRIP WEBAPP
+    - ../Object Detection Models:/app/Object Detection Models
+   tty: true
+   networks:
+    - net
+
+ mysql:
+  image: mysql
+  ports:
+    - "3306:3306"
+  environment:
+   MYSQL_ROOT_PASSWORD: ePBsjLQV
+   MYSQL_DATABASE: desapi
+  volumes:
+    - ./MySQL/:/docker-entrypoint-initdb.d
+    - ./MySQL/data:/var/lib/mysql
+  networks:
+    - net
+
+networks:
+  net:
+    driver: bridge
